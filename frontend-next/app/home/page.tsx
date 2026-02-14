@@ -56,7 +56,7 @@ export default function Home() {
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-4">{route.name}</h3>
                   <Link href={`/map/${route.name.toLowerCase().replace(' ', '-')}`}>
-                    <Button className="w-full">Run the route!</Button>
+                    <Button className="w-full">Run route!</Button>
                   </Link>
                 </div>
               </div>
@@ -65,21 +65,5 @@ export default function Home() {
         </main>
       </div>
     </ProtectedRoute>
-  );
-}
-
-function Link({
-  href,
-  children,
-  className,
-}: {
-  href: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <a href={href} className={className}>
-      {children}
-    </a>
   );
 }

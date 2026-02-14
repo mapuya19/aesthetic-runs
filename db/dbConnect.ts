@@ -10,7 +10,7 @@ async function dbConnect(): Promise<void> {
   } catch (error) {
     console.log('Unable to connect to database!');
     console.error(error);
-    process.exit(1);
+    console.log('Server will continue without database connection for testing purposes.');
   }
 }
 
