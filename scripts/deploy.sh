@@ -93,36 +93,40 @@ fi
 # Deploy Backend
 echo ""
 echo "🚀 Deploying Backend to Render..."
-cd apps/backend
-if ! render deploy; then
+if ! render deploys create srv-cdr9sfen6mpqj2dvjcpg --wait --confirm; then
   echo -e "${RED}❌ Backend deployment failed${NC}"
   exit 1
 fi
-cd ../..
 echo -e "${GREEN}✅ Backend deployed${NC}"
 
 # Get backend URL
 BACKEND_URL=$(render services list --format json 2>/dev/null | grep -o '"url":"[^"]*"' | head -1 | cut -d'"' -f4)
 if [ -n "$BACKEND_URL" ]; then
   echo -e "${GREEN}Backend URL: $BACKEND_URL${NC}"
-  
-  # Update frontend env var with backend URL
-  echo ""
-  echo "🔗 Updating frontend with backend URL..."
-  cd apps/frontend
-  netlify env:set NEXT_PUBLIC_API_URL "$BACKEND_URL" 2>/dev/null || true
-  cd ../..
 fi
 
 # Deploy Frontend
 echo ""
 echo "🚀 Deploying Frontend to Netlify..."
+echo "  Building frontend..."
 cd apps/frontend
-if ! netlify deploy --prod --build; then
-  echo -e "${RED}❌ Frontend deployment failed${NC}"
+if ! pnpm build; then
+  echo -e "${RED}❌ Frontend build failed${NC}"
   exit 1
 fi
 cd ../..
+
+# Check if Netlify site is linked
+if [ ! -f .netlify/state.json ]; then
+  echo -e "${YELLOW}⚠️  Netlify site not linked. Run 'netlify link' first or deploy manually.${NC}"
+  echo "  Manual deploy: cd apps/frontend && netlify deploy --prod --dir=.next"
+  exit 1
+fi
+
+if ! netlify deploy --prod --dir=apps/frontend/.next; then
+  echo -e "${RED}❌ Frontend deployment failed${NC}"
+  exit 1
+fi
 echo -e "${GREEN}✅ Frontend deployed${NC}"
 
 # Get frontend URL

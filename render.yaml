@@ -1,15 +1,20 @@
 services:
   - type: web
-    name: aesthetic-runs-backend
+    name: aesthetic-backend
+    repo: https://github.com/aesthetic-runs/aesthetic-runs
+    rootDir: apps/backend
     env: node
-    buildCommand: cd apps/backend && npm install && npx prisma generate && npm run build
-    startCommand: cd apps/backend && npm start
+    nodeVersion: '20'
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npm run start
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NODE_VERSION
+        value: '20'
       - key: DATABASE_URL
-        sync: false # Set this in Render dashboard
+        sync: false
       - key: JWT_SECRET
-        sync: false # Set this in Render dashboard
+        sync: false
       - key: PORT
-        value: 10000 # Render uses this port
+        value: 10000
