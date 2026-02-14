@@ -1,7 +1,4 @@
-import prisma from './prisma';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { prisma } from './prisma';
 
 async function dbConnect(): Promise<void> {
   try {

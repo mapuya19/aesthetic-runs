@@ -8,7 +8,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 
 import dbConnect from './db/dbConnect';
-import prisma from './db/prisma';
+import { prisma } from './db/prisma';
 
 const app = express();
 

@@ -1,23 +1,29 @@
-# Aesthetic Runs
+# Monorepo for Aesthetic Runs
 
-Runs that are easy on the eyes.
+## Structure
 
-## Please allow some time when signing up or logging in. Our back-end is slower due to it being hosted for free on https://render.com/.
+- `apps/backend` - Express API server with Prisma
+- `apps/frontend` - Next.js 16 frontend
 
-## Start development
+## Development
 
-### Run front end on local machine
+```bash
+pnpm install          # Install all dependencies
+pnpm dev              # Start both backend and frontend
+pnpm dev:backend      # Start only backend (port 8000)
+pnpm dev:frontend     # Start only frontend (port 3000)
+```
 
-- `cd front-end`
-- `nvm use lts/hydrogen`
-- `npm install`
-- Add Google Maps API key using `dotenv` to `front-end/src/components/MapDisplay`
-- `npm start`
+## Environment Variables
 
-### Run back end on local machine
+Root `.env` file is used for both apps:
 
-- Ensure you are in the root folder
-- `nvm use lts/hydrogen`
-- `npm install`
-- Add MongoDB access key using `dotenv` to `/db/dbConnect.js`
-- `npx nodemon index.js`
+- `DATABASE_URL` - PostgreSQL connection string
+- `NEXT_PUBLIC_MAPBOX_TOKEN` - Mapbox access token (frontend)
+
+## Notes
+
+- Uses pnpm workspaces for dependency management
+- Backend: Express + Prisma + PostgreSQL
+- Frontend: Next.js 16 + React + TailwindCSS + Mapbox
+- Legacy `front-end` folder (React app with CRA) has been removed
