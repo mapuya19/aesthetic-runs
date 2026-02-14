@@ -4,6 +4,7 @@
   command = "pnpm build"
 
 [build.environment]
+  NODE_VERSION = "20"
   NEXT_PUBLIC_API_URL = "https://your-render-backend-url.onrender.com"
   # Add other env vars here or in Netlify UI
 
