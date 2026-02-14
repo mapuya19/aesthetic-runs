@@ -100,6 +100,7 @@
 - [x] Create RouteStepper component for step-by-step navigation
 - [x] Update map page to use new components
 - [x] Add seed script for sample routes
+- [x] Migrate all route data from original frontend (6 routes with accurate coordinates, waypoints, and steps)
 
 ### Phase 11: Set up Testing Framework
 
