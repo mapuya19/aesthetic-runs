@@ -3,6 +3,7 @@
 ## ✅ Completed Phases
 
 ### Phase 1: Security & Infrastructure Setup
+
 - [x] Removed `.env` files from git, updated `.gitignore`, created `.env.example` templates
 - [x] Added helmet for security headers
 - [x] Added express-rate-limit for rate limiting (100 requests per 15 minutes)
@@ -12,6 +13,7 @@
 - [x] Tested Phase 1 changes - all working ✓
 
 ### Phase 2: Backend Refactor
+
 - [x] Created `index.js` entry point
 - [x] Removed deprecated Mongoose options (`useNewUrlParser`)
 - [x] Added error handling middleware
@@ -20,6 +22,7 @@
 - [x] Tested Phase 2 changes - all working ✓
 
 ### Phase 3: Migrate to Prisma ORM with PostgreSQL
+
 - [x] Installed and initialized Prisma with PostgreSQL provider
 - [x] Created Prisma schema with User model
 - [x] Created `db/prisma.js` for Prisma client
@@ -33,12 +36,14 @@
 **Note**: Users need to configure their own PostgreSQL database connection string in `.env`
 
 ### Phase 5: Set up Next.js 15 Project with TypeScript
+
 - [x] Created new Next.js 15 project with TypeScript
 - [x] Installed dependencies: @tanstack/react-query, zustand, axios, react-hook-form, zod, sonner, react-map-gl, mapbox-gl
 - [x] Set up project structure (lib, store, types, hooks, components)
 - [x] Created `.env.example` for frontend
 
 ### Phase 6: Migrate Frontend to Next.js App Router
+
 - [x] Created landing page (`/`) with original design
 - [x] Created login page (`/login`) with form validation
 - [x] Created register page (`/register`) with form validation
@@ -50,42 +55,55 @@
 - [x] Created TypeScript types for User, auth requests/responses
 
 ### Phase 8: Implement Zustand State Management
+
 - [x] Created auth store with Zustand
 - [x] Implemented persistent auth state with localStorage
 - [x] Added logout functionality
 
 ### Phase 9: Replace Alerts with Toast Notifications
+
 - [x] Installed sonner for toast notifications
 - [x] Created toast utility functions
 - [x] Replaced all alert() calls with toast notifications in login/register
 - [x] Added Toaster component to root layout
 
+### Phase 4: Convert Backend to TypeScript
+
+- [x] Installed TypeScript and type definitions (@types/*)
+- [x] Created tsconfig.json with strict mode
+- [x] Converted all backend .js files to .ts (index.ts, app.ts, auth.ts, db/prisma.ts, db/dbConnect.ts)
+- [x] Added proper TypeScript types for Express, Prisma, and JWT
+- [x] Updated package.json scripts (dev, build, typecheck)
+- [x] Fixed Prisma 7 configuration compatibility
+- [x] Fixed duplicate code bug in app.ts
+
+### Phase 10: Add ESLint, Prettier, and Husky
+
+- [x] Installed ESLint 9 with TypeScript support
+- [x] Configured ESLint flat config (eslint.config.mjs)
+- [x] Added Prettier with consistent formatting rules
+- [x] Set up Husky for git hooks
+- [x] Configured lint-staged for pre-commit checks
+- [x] Added npm scripts: lint, lint:fix, format, format:check
+- [x] Fixed all ESLint errors and formatted code
+
 ## 🔄 Pending Phases
 
-### Phase 4: Convert Backend to TypeScript
-- [ ] Install TypeScript dependencies
-- [ ] Convert `.js` files to `.ts`
-- [ ] Add type definitions
-- [ ] Update scripts for ts-node/tsc
-
 ### Phase 7: Replace Google Maps with Mapbox
+
 - [ ] Implement Mapbox maps in frontend
 - [ ] Add Mapbox markers and routes
 - [ ] Configure Mapbox styles
 
-### Phase 10: Add ESLint, Prettier, and Husky
-- [ ] Configure ESLint for TypeScript + Next.js
-- [ ] Add Prettier for consistent formatting
-- [ ] Set up Husky pre-commit hooks
-- [ ] Add lint-staged
-
 ### Phase 11: Set up Testing Framework
+
 - [ ] Add Jest + React Testing Library for frontend
 - [ ] Add Jest + Supertest for backend
 - [ ] Write tests for auth endpoints
 - [ ] Write tests for components
 
 ### Phase 12: Deploy to Vercel and Test End-to-End
+
 - [ ] Configure Vercel deployment
 - [ ] Set up environment variables in Vercel
 - [ ] Test production deployment
@@ -94,22 +112,30 @@
 ## 📁 New Project Structure
 
 ### Backend (Root)
+
 ```
 /aesthetic-runs/
-├── index.js                 # Entry point with graceful shutdown
-├── app.js                   # Express app with middleware
-├── auth.js                  # Updated auth middleware
+├── index.ts                 # Entry point with graceful shutdown
+├── app.ts                   # Express app with middleware and types
+├── auth.ts                  # Updated auth middleware with TypeScript
+├── tsconfig.json            # TypeScript configuration
+├── eslint.config.mjs        # ESLint flat config
+├── .prettierrc              # Prettier configuration
 ├── prisma/                  # Prisma schema
 │   └── schema.prisma
+├── prisma.config.ts         # Prisma 7 configuration
 ├── db/
-│   ├── dbConnect.js         # Prisma connection
-│   ├── prisma.js           # Prisma client
+│   ├── dbConnect.ts         # Prisma connection
+│   ├── prisma.ts           # Prisma client
 │   └── userModel.js        # Legacy (can be removed)
 ├── .env.example            # Environment variables template
+├── .husky/                  # Git hooks
+│   └── pre-commit          # Lint-staged hook
 └── package.json           # Updated scripts and dependencies
 ```
 
 ### Frontend (Next.js)
+
 ```
 /frontend-next/
 ├── app/
@@ -146,7 +172,8 @@
 
 ## 🚀 How to Run
 
-### Backend (Express + Prisma)
+### Backend (Express + Prisma + TypeScript)
+
 ```bash
 # Install dependencies
 npm install
@@ -155,14 +182,27 @@ npm install
 cp .env.example .env
 # Edit .env and add your DATABASE_URL and JWT_SECRET
 
-# Run in development
+# Run in development (TypeScript with hot reload)
 npm run dev
+
+# Build TypeScript to JavaScript
+npm run build
 
 # Run in production
 npm start
+
+# Type checking (without emitting files)
+npm run typecheck
+
+# Lint code
+npm run lint
+
+# Format code
+npm run format
 ```
 
 ### Frontend (Next.js 15)
+
 ```bash
 # Navigate to frontend
 cd frontend-next
@@ -202,9 +242,9 @@ npm start
 
 ## 📊 Progress
 
-**Completed**: 7/12 phases (58%)
-**High Priority**: 6/7 completed (86%)
-**Medium Priority**: 3/5 completed (60%)
+**Completed**: 9/12 phases (75%)
+**High Priority**: 8/9 completed (89%)
+**Medium Priority**: 4/5 completed (80%)
 
 ---
 
