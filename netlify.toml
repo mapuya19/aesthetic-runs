@@ -1,5 +1,5 @@
 [build]
-  base = "apps/frontend"
+  base = "."
   publish = ".next"
   command = "pnpm build"
 

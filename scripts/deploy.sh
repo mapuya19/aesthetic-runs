@@ -46,9 +46,8 @@ echo ""
 echo "⚙️  Setting up environment variables..."
 
 # Frontend environment variables
-if [ -f apps/frontend/.env.local ]; then
-  echo "Setting Netlify environment variables from frontend .env.local..."
-  cd apps/frontend
+if [ -f .env.local ]; then
+  echo "Setting Netlify environment variables from .env.local..."
   while IFS='=' read -r key value; do
     [[ -z "$key" || "$key" =~ ^# ]] && continue
     value=$(echo "$value" | sed -e 's/^"//' -e 's/"$//')
@@ -58,31 +57,28 @@ if [ -f apps/frontend/.env.local ]; then
       netlify env:set "$key" "$value" 2>/dev/null || true
     fi
   done < .env.local
-  cd ../..
   echo -e "${GREEN}✅ Frontend env vars set${NC}"
 else
-  echo -e "${YELLOW}⚠️  No apps/frontend/.env.local file found. Set env vars manually in Netlify dashboard.${NC}"
+  echo -e "${YELLOW}⚠️  No .env.local file found. Set env vars manually in Netlify dashboard.${NC}"
 fi
 
 # Deploy Frontend
 echo ""
 echo "🚀 Deploying Frontend to Netlify..."
 echo "  Building frontend..."
-cd apps/frontend
 if ! pnpm build; then
   echo -e "${RED}❌ Frontend build failed${NC}"
   exit 1
 fi
-cd ../..
 
 # Check if Netlify site is linked
 if [ ! -f .netlify/state.json ]; then
   echo -e "${YELLOW}⚠️  Netlify site not linked. Run 'netlify link' first or deploy manually.${NC}"
-  echo "  Manual deploy: cd apps/frontend && netlify deploy --prod --dir=.next"
+  echo "  Manual deploy: pnpm build && netlify deploy --prod --dir=.next"
   exit 1
 fi
 
-if ! netlify deploy --prod --dir=apps/frontend/.next; then
+if ! netlify deploy --prod --dir=.next; then
   echo -e "${RED}❌ Frontend deployment failed${NC}"
   exit 1
 fi
@@ -91,7 +87,7 @@ echo -e "${GREEN}✅ Frontend deployed${NC}"
 # Get frontend URL
 echo ""
 echo "🌐 Your application is deployed at:"
-FRONTEND_URL=$(cd apps/frontend && netlify site:info --json 2>/dev/null | grep -o '"url":"[^"]*"' | head -1 | cut -d'"' -f4)
+FRONTEND_URL=$(netlify site:info --json 2>/dev/null | grep -o '"url":"[^"]*"' | head -1 | cut -d'"' -f4)
 if [ -n "$FRONTEND_URL" ]; then
   echo -e "${GREEN}Frontend: $FRONTEND_URL${NC}"
 fi
