@@ -34,8 +34,9 @@ export default function Register() {
       await apiClient.post('/registration', data);
       showToast.success('Success! You can now log in.');
       router.push('/login');
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Registration failed. Please try again.';
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      const message = err.response?.data?.message || 'Registration failed. Please try again.';
       showToast.error(message);
     } finally {
       setIsLoading(false);
@@ -60,9 +61,7 @@ export default function Register() {
               {...register('email')}
               className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
           </div>
 
           <div>

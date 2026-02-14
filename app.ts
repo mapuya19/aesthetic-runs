@@ -79,8 +79,8 @@ app.post(
           createdAt: user.createdAt,
         },
       });
-    } catch (error: any) {
-      if (error.code === 'P2002') {
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
         return response.status(400).send({
           message: 'Email already exists',
         });
@@ -149,15 +149,60 @@ app.post(
   },
 );
 
+app.get('/routes', async (request: Request, response: Response, next: NextFunction) => {
+  try {
+    const routes = await prisma.route.findMany({
+      orderBy: { name: 'asc' },
+    });
+
+    response.status(200).json({
+      message: 'Routes retrieved successfully',
+      routes,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get(
+  '/routes/:slug',
+  async (request: Request<{ slug: string }>, response: Response, next: NextFunction) => {
+    try {
+      const { slug } = request.params;
+
+      const route = await prisma.route.findUnique({
+        where: { slug },
+      });
+
+      if (!route) {
+        return response.status(404).json({
+          message: 'Route not found',
+        });
+      }
+
+      response.status(200).json({
+        message: 'Route retrieved successfully',
+        route,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
 app.use((request: Request, response: Response) => {
   response.status(404).json({ message: 'Route not found' });
 });
 
-app.use((error: any, request: Request, response: Response) => {
-  console.error(error.stack);
-  response.status(error.status || 500).json({
-    message: error.message || 'Internal server error',
-    error: process.env.NODE_ENV === 'development' ? error : {},
+app.use((error: unknown, request: Request, response: Response) => {
+  const err = error as { status?: number; message?: string; stack?: string };
+  const status = err.status || 500;
+  const message = err.message || 'Internal server error';
+
+  console.error(err.stack);
+  response.status(status).json({
+    message,
+    error: process.env.NODE_ENV === 'development' ? err : {},
   });
 });
 

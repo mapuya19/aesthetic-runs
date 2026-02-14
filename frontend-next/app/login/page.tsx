@@ -35,12 +35,13 @@ export default function Login() {
     try {
       const response = await apiClient.post('/login', data);
       const { email, token } = response.data;
-      
+
       setAuth({ id: '', email }, token);
       showToast.success('Success! You are now logged in.');
       router.push('/home');
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Login failed. Please try again.';
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      const message = err.response?.data?.message || 'Login failed. Please try again.';
       showToast.error(message);
     } finally {
       setIsLoading(false);
@@ -65,9 +66,7 @@ export default function Login() {
               {...register('email')}
               className="mt-1 block w-full rounded-md border border-zinc-300 px-3 py-2 shadow-sm focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
             />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
           </div>
 
           <div>
@@ -92,7 +91,7 @@ export default function Login() {
 
           <div className="text-center">
             <Link href="/register" className="text-teal-600 hover:text-teal-700">
-              Don't have an account? Sign Up
+              Don&apos;t have an account? Sign Up
             </Link>
           </div>
         </form>
@@ -101,7 +100,15 @@ export default function Login() {
   );
 }
 
-function Link({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) {
+function Link({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <a href={href} className={className}>
       {children}

@@ -2,6 +2,7 @@
 
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuthStore } from '@/store/authStore';
 import { Button } from '@/components/ui/button';
 
@@ -49,11 +50,9 @@ export default function Home() {
               },
             ].map((route) => (
               <div key={route.name} className="bg-white rounded-lg shadow-md overflow-hidden">
-                <img
-                  src={route.image}
-                  alt={route.name}
-                  className="w-full h-48 object-cover"
-                />
+                <div className="relative w-full h-48">
+                  <Image src={route.image} alt={route.name} fill className="object-cover" />
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-4">{route.name}</h3>
                   <Link href={`/map/${route.name.toLowerCase().replace(' ', '-')}`}>
@@ -69,7 +68,15 @@ export default function Home() {
   );
 }
 
-function Link({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) {
+function Link({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <a href={href} className={className}>
       {children}

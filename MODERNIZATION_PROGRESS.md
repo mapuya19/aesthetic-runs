@@ -69,7 +69,7 @@
 
 ### Phase 4: Convert Backend to TypeScript
 
-- [x] Installed TypeScript and type definitions (@types/*)
+- [x] Installed TypeScript and type definitions (@types/\*)
 - [x] Created tsconfig.json with strict mode
 - [x] Converted all backend .js files to .ts (index.ts, app.ts, auth.ts, db/prisma.ts, db/dbConnect.ts)
 - [x] Added proper TypeScript types for Express, Prisma, and JWT
@@ -91,9 +91,15 @@
 
 ### Phase 7: Replace Google Maps with Mapbox
 
-- [ ] Implement Mapbox maps in frontend
-- [ ] Add Mapbox markers and routes
-- [ ] Configure Mapbox styles
+- [x] Implement Mapbox maps in frontend
+- [x] Add Mapbox markers and routes
+- [x] Configure Mapbox styles
+- [x] Create Route model in Prisma schema
+- [x] Create backend API endpoints for routes
+- [x] Create MapView component with react-map-gl
+- [x] Create RouteStepper component for step-by-step navigation
+- [x] Update map page to use new components
+- [x] Add seed script for sample routes
 
 ### Phase 11: Set up Testing Framework
 
@@ -116,22 +122,23 @@
 ```
 /aesthetic-runs/
 ├── index.ts                 # Entry point with graceful shutdown
-├── app.ts                   # Express app with middleware and types
+├── app.ts                   # Express app with middleware, types, and route endpoints
 ├── auth.ts                  # Updated auth middleware with TypeScript
 ├── tsconfig.json            # TypeScript configuration
 ├── eslint.config.mjs        # ESLint flat config
 ├── .prettierrc              # Prettier configuration
 ├── prisma/                  # Prisma schema
-│   └── schema.prisma
+│   ├── schema.prisma       # Database schema (User, Route models)
+│   └── seed.ts             # Seed script for sample routes
 ├── prisma.config.ts         # Prisma 7 configuration
 ├── db/
-│   ├── dbConnect.ts         # Prisma connection
+│   ├── dbConnect.ts        # Prisma connection
 │   ├── prisma.ts           # Prisma client
 │   └── userModel.js        # Legacy (can be removed)
 ├── .env.example            # Environment variables template
 ├── .husky/                  # Git hooks
 │   └── pre-commit          # Lint-staged hook
-└── package.json           # Updated scripts and dependencies
+└── package.json           # Updated scripts and dependencies (includes seed script)
 ```
 
 ### Frontend (Next.js)
@@ -139,23 +146,25 @@
 ```
 /frontend-next/
 ├── app/
-│   ├── layout.tsx         # Root layout with Toaster
+│   ├── layout.tsx         # Root layout with Toaster and Mapbox CSS
 │   ├── page.tsx           # Landing page
 │   ├── login/             # Login page
 │   ├── register/          # Register page
 │   ├── home/              # Protected home page
-│   └── map/[route]/       # Map page
+│   └── map/[route]/       # Map page with Mapbox integration
 ├── components/
 │   ├── ui/
 │   │   └── button.tsx     # Button component
-│   └── ProtectedRoute.tsx  # Route protection
+│   ├── ProtectedRoute.tsx # Route protection
+│   ├── MapView.tsx        # Mapbox map component with markers
+│   └── RouteStepper.tsx   # Step-by-step navigation component
 ├── lib/
-│   ├── api.ts            # Axios client with interceptors
+│   ├── api.ts            # Axios client with interceptors and route API
 │   └── toast.ts          # Toast utilities
 ├── store/
 │   └── authStore.ts      # Zustand auth store
 ├── types/
-│   └── index.ts          # TypeScript types
+│   └── index.ts          # TypeScript types (User, Route, Waypoint, Step)
 └── package.json          # Next.js dependencies
 ```
 
@@ -234,17 +243,18 @@ npm start
 ## 🎯 Next Steps
 
 1. Set up PostgreSQL database
-2. Configure environment variables
-3. Test backend endpoints with Prisma
-4. Complete Mapbox integration
-5. Add comprehensive testing
-6. Deploy to Vercel
+2. Configure environment variables (DATABASE_URL, JWT_SECRET, NEXT_PUBLIC_MAPBOX_TOKEN)
+3. Run `npm run seed` to populate routes in database
+4. Test backend endpoints with Prisma
+5. Test Mapbox integration in frontend
+6. Add comprehensive testing
+7. Deploy to Vercel
 
 ## 📊 Progress
 
-**Completed**: 9/12 phases (75%)
-**High Priority**: 8/9 completed (89%)
-**Medium Priority**: 4/5 completed (80%)
+**Completed**: 10/12 phases (83%)
+**High Priority**: 9/9 completed (100%)
+**Medium Priority**: 5/5 completed (100%)
 
 ---
 

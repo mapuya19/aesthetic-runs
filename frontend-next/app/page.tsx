@@ -13,9 +13,7 @@ export default function Landing() {
     >
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 text-center space-y-8">
-        <h1 className="text-6xl font-bold text-white drop-shadow-lg">
-          AESTHETIC RUNS
-        </h1>
+        <h1 className="text-6xl font-bold text-white drop-shadow-lg">AESTHETIC RUNS</h1>
         <div className="flex gap-4 justify-center">
           <Link href="/register">
             <Button size="lg" className="bg-teal-600 hover:bg-teal-700">

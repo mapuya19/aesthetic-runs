@@ -1,4 +1,5 @@
 import axios from 'axios';
+import type { LoginRequest, RegisterRequest, RoutesResponse, RouteResponse } from '@/types';
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
@@ -17,7 +18,7 @@ apiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 apiClient.interceptors.response.use(
@@ -28,7 +29,17 @@ apiClient.interceptors.response.use(
       window.location.href = '/login';
     }
     return Promise.reject(error);
-  }
+  },
 );
+
+export const authApi = {
+  login: (data: LoginRequest) => apiClient.post('/login', data),
+  register: (data: RegisterRequest) => apiClient.post('/registration', data),
+};
+
+export const routesApi = {
+  getAll: () => apiClient.get<RoutesResponse>('/routes'),
+  getBySlug: (slug: string) => apiClient.get<RouteResponse>(`/routes/${slug}`),
+};
 
 export default apiClient;
