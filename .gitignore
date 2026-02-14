@@ -1,7 +1,8 @@
 # Dependencies
 node_modules/
-/.pnp
-.pnp.js
+
+# pnpm
+pnpm-lock.yaml
 
 # Testing
 /coverage
@@ -35,3 +36,6 @@ out/
 # Prisma
 prisma/migrations/*/migration.sql
 /generated/prisma
+
+# Local Netlify folder
+.netlify
