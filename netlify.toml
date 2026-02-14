@@ -4,12 +4,11 @@
   command = "pnpm build"
 
 [build.environment]
-  NEXT_PUBLIC_API_URL = "https://your-render-backend-url.onrender.com"
   # Add other env vars here or in Netlify UI
 
 [[redirects]]
   from = "/api/*"
-  to = "https://your-render-backend-url.onrender.com/api/:splat"
+  to = "https://aesthetic-runs.onrender.com/api/:splat"
   status = 200
 
 [[redirects]]
