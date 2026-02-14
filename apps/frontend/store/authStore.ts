@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { supabase } from '@/lib/supabase';
 
 interface AuthState {
   user: { id: string; email: string } | null;
-  token: string | null;
+  session: any;
   isAuthenticated: boolean;
-  setAuth: (user: { id: string; email: string } | null, token: string | null) => void;
+  setAuth: (user: { id: string; email: string } | null, session: any) => void;
   logout: () => void;
 }
 
@@ -13,19 +14,20 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      token: null,
+      session: null,
       isAuthenticated: false,
-      setAuth: (user, token) => {
-        if (token) {
-          localStorage.setItem('token', token);
+      setAuth: (user, session) => {
+        if (session?.access_token) {
+          localStorage.setItem('token', session.access_token);
         } else {
           localStorage.removeItem('token');
         }
-        set({ user, token, isAuthenticated: !!user });
+        set({ user, session, isAuthenticated: !!user });
       },
-      logout: () => {
+      logout: async () => {
         localStorage.removeItem('token');
-        set({ user: null, token: null, isAuthenticated: false });
+        await supabase.auth.signOut();
+        set({ user: null, session: null, isAuthenticated: false });
       },
     }),
     {

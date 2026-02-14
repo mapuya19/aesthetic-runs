@@ -3,11 +3,27 @@
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { Button } from '@/components/ui/button';
+import { routesApi } from '@/lib/routes';
+import type { Route } from '@/types';
 
 export default function Home() {
   const { user, logout } = useAuthStore();
+  const [routes, setRoutes] = useState<Route[]>([]);
+
+  useEffect(() => {
+    const fetchRoutes = async () => {
+      try {
+        const { data } = await routesApi.getAll();
+        setRoutes(data.routes);
+      } catch (error) {
+        console.error('Failed to load routes:', error);
+      }
+    };
+    fetchRoutes();
+  }, []);
 
   return (
     <ProtectedRoute>
@@ -35,27 +51,17 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                name: 'Hudson River',
-                image: 'https://i.imgur.com/UuBLN4A.png',
-              },
-              {
-                name: 'Midtown East',
-                image: 'https://i.imgur.com/wrCBULb.png',
-              },
-              {
-                name: 'Central Park',
-                image: 'https://i.imgur.com/8xk3z1v.png',
-              },
-            ].map((route) => (
-              <div key={route.name} className="bg-white rounded-lg shadow-md overflow-hidden">
+            {routes.map((route) => (
+              <div key={route.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="relative w-full h-48">
-                  <Image src={route.image} alt={route.name} fill className="object-cover" />
+                  <div className="w-full h-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-4xl font-bold">
+                    {route.name[0]}
+                  </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-4">{route.name}</h3>
-                  <Link href={`/map/${route.name.toLowerCase().replace(' ', '-')}`}>
+                  <h3 className="text-xl font-semibold mb-2">{route.name}</h3>
+                  <p className="text-zinc-600 mb-4">{route.description}</p>
+                  <Link href={`/map/${route.slug}`}>
                     <Button className="w-full">Run route!</Button>
                   </Link>
                 </div>

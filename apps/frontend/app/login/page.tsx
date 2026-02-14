@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import apiClient from '@/lib/api';
+import { auth } from '@/lib/auth';
 import { useAuthStore } from '@/store/authStore';
 import { showToast } from '@/lib/toast';
 import { Button } from '@/components/ui/button';
@@ -33,15 +33,17 @@ export default function Login() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     try {
-      const response = await apiClient.post('/login', data);
-      const { email, token } = response.data;
+      const result = await auth.login(data.email, data.password);
 
-      setAuth({ id: '', email }, token);
+      setAuth(
+        { id: result.user?.id || '', email: result.user?.email || '' },
+        result.session?.access_token || '',
+      );
       showToast.success('Success! You are now logged in.');
       router.push('/home');
     } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      const message = err.response?.data?.message || 'Login failed. Please try again.';
+      const err = error as { message?: string };
+      const message = err.message || 'Login failed. Please try again.';
       showToast.error(message);
     } finally {
       setIsLoading(false);

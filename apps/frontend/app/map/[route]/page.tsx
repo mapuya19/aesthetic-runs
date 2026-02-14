@@ -5,7 +5,7 @@ import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import MapView from '@/components/MapView';
 import RouteStepper from '@/components/RouteStepper';
-import { routesApi } from '@/lib/api';
+import { routesApi } from '@/lib/routes';
 import { toast } from 'sonner';
 import type { Route } from '@/types';
 

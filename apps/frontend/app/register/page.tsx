@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import apiClient from '@/lib/api';
+import { auth } from '@/lib/auth';
 import { showToast } from '@/lib/toast';
 import { Button } from '@/components/ui/button';
 
@@ -31,12 +31,12 @@ export default function Register() {
   const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true);
     try {
-      await apiClient.post('/registration', data);
+      await auth.register(data.email, data.password);
       showToast.success('Success! You can now log in.');
       router.push('/login');
     } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      const message = err.response?.data?.message || 'Registration failed. Please try again.';
+      const err = error as { message?: string };
+      const message = err.message || 'Registration failed. Please try again.';
       showToast.error(message);
     } finally {
       setIsLoading(false);
