@@ -1,0 +1,7 @@
+dist
+node_modules
+front-end
+frontend-next
+coverage
+*.log
+.DS_Store
