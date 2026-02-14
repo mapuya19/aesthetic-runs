@@ -1,20 +1,31 @@
 const jwt = require("jsonwebtoken");
+const prisma = require("./db/prisma");
 
 module.exports = async (request, response, next) => {
   try {
-    //   get the token from the authorization header
-    const token = await request.headers.authorization.split(" ")[1];
+    const authHeader = request.headers.authorization;
+    
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return response.status(401).json({
+        error: new Error("No token provided!"),
+      });
+    }
 
-    //check if the token matches the supposed origin
-    const decodedToken = await jwt.verify(token, "RANDOM-TOKEN");
+    const token = authHeader.split(" ")[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-    // retrieve the user details of the logged in user
-    const user = await decodedToken;
+    const user = await prisma.user.findUnique({
+      where: { id: decodedToken.userId },
+      select: { id: true, email: true },
+    });
 
-    // pass the user down to the endpoints here
+    if (!user) {
+      return response.status(401).json({
+        error: new Error("User not found!"),
+      });
+    }
+
     request.user = user;
-
-    // pass down functionality to the endpoint
     next();
   } catch (error) {
     response.status(401).json({
