@@ -3,44 +3,86 @@ const app = express();
 const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const cors = require("cors");
+const morgan = require("morgan");
 
 // require database connection
 const dbConnect = require("./db/dbConnect");
-const User = require("./db/userModel");
+const prisma = require("./db/prisma");
 const auth = require("./auth");
 
 // execute database connection
 dbConnect();
 
+// security headers
+app.use(helmet());
+
+// rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: "Too many requests from this IP, please try again later."
+});
+app.use(limiter);
+
+// CORS configuration
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? 'https://your-domain.com' : 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // body parser configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Fix CORS
-app.use((request, response, next) => {
-  response.append("Access-Control-Allow-Origin", "*");
-  response.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  response.append("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+// request logging
+app.use(morgan("dev"));
 
 // Landing page for back-end
 app.get("/", (request, response, next) => {
   response.json({ message: "Hey! This is your server response!" });
-  next();
 });
 
 // registration endpoint
-app.post("/registration", (request, response) => {
-  // hash the password
-  bcrypt
-    .hash(request.body.password, 10)
-    .then((hashedPassword) => {
-      // create a new user instance and collect the data
-      const user = new User({
-        email: request.body.email,
-        password: hashedPassword,
+app.post("/registration", async (request, response, next) => {
+  try {
+    const { email, password } = request.body;
+
+    if (!email || !password) {
+      return response.status(400).send({
+        message: "Email and password are required"
       });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    response.status(201).send({
+      message: "User created successfully",
+      result: {
+        id: user.id,
+        email: user.email,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    if (error.code === 'P2002') {
+      return response.status(400).send({
+        message: "Email already exists"
+      });
+    }
+    next(error);
+  }
+});
 
       // save the new user
       user
@@ -70,58 +112,51 @@ app.post("/registration", (request, response) => {
 });
 
 // login endpoint
-app.post("/login", (request, response) => {
-  // check if email exists
-  User.findOne({ email: request.body.email })
+app.post("/login", async (request, response, next) => {
+  try {
+    const { email, password } = request.body;
 
-    // if email exists
-    .then((user) => {
-      // compare the password entered and the hashed password found
-      bcrypt
-        .compare(request.body.password, user.password)
-
-        // if the passwords match
-        .then((passwordCheck) => {
-          // check if password matches
-          if (!passwordCheck) {
-            return response.status(400).send({
-              message: "Incorrect password, please try again.",
-              error,
-            });
-          }
-
-          // create JWT token
-          const token = jwt.sign(
-            {
-              userId: user._id,
-              userEmail: user.email,
-            },
-            "RANDOM-TOKEN",
-            { expiresIn: "24h" }
-          );
-
-          // return success response
-          response.status(200).send({
-            message: "Login successful!",
-            email: user.email,
-            token,
-          });
-        })
-        // catch error if password does not match
-        .catch((error) => {
-          response.status(400).send({
-            message: "Incorrect password, please try again.",
-            error,
-          });
-        });
-    })
-    // catch error if email does not exist
-    .catch((e) => {
-      response.status(404).send({
-        message: "Email not found, please try again.",
-        e,
+    if (!email || !password) {
+      return response.status(400).send({
+        message: "Email and password are required"
       });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
     });
+
+    if (!user) {
+      return response.status(404).send({
+        message: "Email not found, please try again."
+      });
+    }
+
+    const passwordCheck = await bcrypt.compare(password, user.password);
+
+    if (!passwordCheck) {
+      return response.status(400).send({
+        message: "Incorrect password, please try again."
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        userEmail: user.email,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    response.status(200).send({
+      message: "Login successful!",
+      email: user.email,
+      token,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // bcrypt.hash(request.body.password, 10).then().catch();
@@ -136,5 +171,18 @@ app.post("/login", (request, response) => {
 //   response.json({ message: "You are authorized to access me." });
 // });
 
-// module.exports = app;
-app.listen(8000, () => console.log("Server is up!")); // Local
+// 404 handler
+app.use((request, response, next) => {
+  response.status(404).json({ message: "Route not found" });
+});
+
+// error handling middleware
+app.use((error, request, response, next) => {
+  console.error(error.stack);
+  response.status(error.status || 500).json({
+    message: error.message || "Internal server error",
+    error: process.env.NODE_ENV === 'development' ? error : {},
+  });
+});
+
+module.exports = app;
