@@ -10,6 +10,7 @@ async function handleAuthError(error: unknown): Promise<AuthError> {
 
   if (error instanceof Error) {
     const message = error.message.toLowerCase();
+    const errorMessage = error.message;
 
     if (message.includes('email not confirmed') || message.includes('email_not_confirmed')) {
       return {
@@ -46,7 +47,12 @@ async function handleAuthError(error: unknown): Promise<AuthError> {
     if (
       message.includes('user already registered') ||
       message.includes('user_already_registered') ||
-      message.includes('duplicate')
+      message.includes('duplicate') ||
+      message.includes('already been registered') ||
+      message.includes('already registered') ||
+      message.includes('already exists') ||
+      errorMessage.includes('User already registered') ||
+      errorMessage.includes('A user with this email address has already been registered')
     ) {
       return {
         message: 'An account with this email already exists. Please log in instead.',

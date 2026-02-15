@@ -29,7 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AuthHandler />
-        {children}
+        <div className="page-enter">
+          {children}
+        </div>
         <Toaster position="top-center" />
       </body>
     </html>

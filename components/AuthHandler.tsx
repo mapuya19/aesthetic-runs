@@ -37,10 +37,14 @@ export default function AuthHandler() {
     };
   }, [setAuth]);
 
-  const handleGoToLogin = () => {
+  const handleClose = () => {
     setShowVerifiedModal(false);
+  };
+
+  const handleGoToLogin = () => {
+    handleClose();
     router.push('/login');
   };
 
-  return <EmailVerifiedModal isOpen={showVerifiedModal} onGoToLogin={handleGoToLogin} />;
+  return <EmailVerifiedModal isOpen={showVerifiedModal} onGoToLogin={handleGoToLogin} onClose={handleClose} />;
 }

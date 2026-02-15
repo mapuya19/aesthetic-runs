@@ -1,8 +1,52 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Cool Background Palette */
+  --background: #f8fafc;
+  --surface-1: #f1f5f9;
+  --surface-2: #e2e8f0;
+  --surface-3: #cbd5e1;
+
+  /* Cool Foreground Text Hierarchy */
+  --foreground: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-muted: #94a3b8;
+
+  /* Brand Colors - Navy base with purple/pink accents */
+  --brand: #6366f1;
+  --brand-hover: #4f46e5;
+  --brand-light: #a5b4fc;
+
+  /* Secondary Accent - Pink */
+  --accent: #ec4899;
+  --accent-light: #f9a8d4;
+
+  /* Additional Accents */
+  --navy: #0f172a;
+  --purple: #8b5cf6;
+  --purple-light: #c4b5fd;
+
+  /* Semantic Colors */
+  --success: #10b981;
+  --success-light: #6ee7b7;
+  --warning: #f59e0b;
+  --warning-light: #fcd34d;
+  --error: #ef4444;
+  --error-light: #fca5a5;
+
+  /* Border Progression (low opacity for whisper-quiet edges) */
+  --border-subtle: rgba(15, 23, 42, 0.06);
+  --border-soft: rgba(15, 23, 42, 0.1);
+  --border-medium: rgba(15, 23, 42, 0.15);
+  --border-strong: rgba(15, 23, 42, 0.25);
+  --border-focus: rgba(99, 102, 241, 0.5);
+
+  /* Depth - Subtle Layered Shadows with cool tints */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -1px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 10px 10px -5px rgba(15, 23, 42, 0.06);
 }
 
 @theme inline {
@@ -14,8 +58,39 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Cool Dark Backgrounds - Deep navy base */
+    --background: #0f172a;
+    --surface-1: #1e293b;
+    --surface-2: #334155;
+    --surface-3: #475569;
+
+    /* Cool Light Text */
+    --foreground: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --text-muted: #64748b;
+
+    /* Desaturated brand colors for dark mode */
+    --brand: #818cf8;
+    --brand-hover: #6366f1;
+    --brand-light: #a5b4fc;
+
+    /* Dark mode accent adjustments */
+    --accent: #f472b6;
+    --accent-light: #f9a8d4;
+
+    /* Border progression for dark mode */
+    --border-subtle: rgba(248, 250, 252, 0.08);
+    --border-soft: rgba(248, 250, 252, 0.12);
+    --border-medium: rgba(248, 250, 252, 0.18);
+    --border-strong: rgba(248, 250, 252, 0.28);
+    --border-focus: rgba(129, 140, 248, 0.5);
+
+    /* Dark mode shadows with purple tint */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -27,4 +102,162 @@ body {
     'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility Classes for Design Tokens */
+.surface-0 { background-color: var(--background); }
+.surface-1 { background-color: var(--surface-1); }
+.surface-2 { background-color: var(--surface-2); }
+.surface-3 { background-color: var(--surface-3); }
+
+.text-primary { color: var(--foreground); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-muted { color: var(--text-muted); }
+
+.border-subtle { border-color: var(--border-subtle); }
+.border-soft { border-color: var(--border-soft); }
+.border-medium { border-color: var(--border-medium); }
+.border-strong { border-color: var(--border-strong); }
+
+.shadow-subtle { box-shadow: var(--shadow-sm); }
+.shadow-card { box-shadow: var(--shadow-md); }
+.shadow-elevated { box-shadow: var(--shadow-lg); }
+.shadow-modal { box-shadow: var(--shadow-xl); }
+
+/* Animations */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 15s ease infinite;
+}
+
+/* Smooth page fade-in */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: fade-in-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scroll-based section animations */
+@keyframes fade-in-up-slow {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-section-fade-up {
+  opacity: 0;
+}
+
+.animate-section-fade-up.visible {
+  animation: fade-in-up-slow 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-section-scale {
+  opacity: 0;
+}
+
+.animate-section-scale.visible {
+  animation: fade-in-scale 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-section-left {
+  opacity: 0;
+}
+
+.animate-section-left.visible {
+  animation: slide-in-left 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-section-right {
+  opacity: 0;
+}
+
+.animate-section-right.visible {
+  animation: slide-in-right 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger children animations */
+.stagger-children > * {
+  opacity: 0;
+}
+
+.stagger-children.visible > *:nth-child(1) {
+  animation: fade-in-up-slow 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.stagger-children.visible > *:nth-child(2) {
+  animation: fade-in-up-slow 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.stagger-children.visible > *:nth-child(3) {
+  animation: fade-in-up-slow 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.stagger-children.visible > *:nth-child(4) {
+  animation: fade-in-up-slow 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+}
+
+.stagger-children.visible > *:nth-child(5) {
+  animation: fade-in-up-slow 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+
+.stagger-children.visible > *:nth-child(6) {
+  animation: fade-in-up-slow 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
 }
