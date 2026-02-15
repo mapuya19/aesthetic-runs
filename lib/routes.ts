@@ -11,6 +11,7 @@ const transformRoute = (r: Record<string, unknown>): Route => ({
   originLng: (r.origin_lng ?? r.originlng ?? r.originLng) as number,
   destLat: (r.dest_lat ?? r.destlat ?? r.destLat) as number,
   destLng: (r.dest_lng ?? r.destlng ?? r.destLng) as number,
+  imageUrl: (r.image_url ?? r.imageUrl) as string | undefined,
   waypoints: ((r.waypoints as Record<string, unknown>[]) || []).map((wp) => ({
     lat: wp.lat as number,
     lng: wp.lng as number,

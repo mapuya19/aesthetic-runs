@@ -60,9 +60,17 @@ export default function Home() {
             {routes.map((route) => (
               <div key={route.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                 <div className="relative w-full h-48">
-                  <div className="w-full h-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-4xl font-bold">
-                    {route.name[0]}
-                  </div>
+                  {route.imageUrl ? (
+                    <img
+                      src={route.imageUrl}
+                      alt={route.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-4xl font-bold">
+                      {route.name[0]}
+                    </div>
+                  )}
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{route.name}</h3>

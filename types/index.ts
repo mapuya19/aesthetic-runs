@@ -50,6 +50,7 @@ export interface Route {
   originLng: number;
   destLat: number;
   destLng: number;
+  imageUrl?: string;
   waypoints: Waypoint[];
   steps: Step[];
   createdAt: string;
