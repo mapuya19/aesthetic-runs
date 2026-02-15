@@ -44,3 +44,50 @@ INSERT INTO waypoints (route_id, lat, lng) VALUES
 -- Insert waypoints for Lincoln Center Run
 INSERT INTO waypoints (route_id, lat, lng) VALUES
 ('f26e7e4f-e273-45a9-8448-6fc2932e8642', 40.772692, -73.983425);
+
+-- Insert steps for Midtown East
+INSERT INTO steps (route_id, label, description, order_num) VALUES
+('41e47512-b7e9-45d4-80b7-6b08140e5f75', 'Start at Grand Central Terminal', 'Begin your run at the iconic Grand Central Terminal, one of the world''s most beautiful train stations.', 1),
+('41e47512-b7e9-45d4-80b7-6b08140e5f75', 'Visit St. Patrick''s Cathedral', 'Run past the stunning Gothic Revival cathedral on Fifth Avenue.', 2),
+('41e47512-b7e9-45d4-80b7-6b08140e5f75', 'Pass by MoMA', 'See the Museum of Modern Art, home to some of the world''s finest modern art.', 3),
+('41e47512-b7e9-45d4-80b7-6b08140e5f75', 'Radio City Music Hall', 'Admire the Art Deco masterpiece and home of the Rockettes.', 4),
+('41e47512-b7e9-45d4-80b7-6b08140e5f75', 'Finish at Chrysler Building', 'End your run at the beautiful Chrysler Building, a symbol of New York City.', 5);
+
+-- Insert steps for Empire State Run
+INSERT INTO steps (route_id, label, description, order_num) VALUES
+('571fbb3e-6b4d-492b-a51f-1cf8cb3c8d97', 'Start at Empire State Building', 'Begin at the base of the world-famous Empire State Building.', 1),
+('571fbb3e-6b4d-492b-a51f-1cf8cb3c8d97', 'Madison Square Park', 'Run through this lovely urban park with great city views.', 2),
+('571fbb3e-6b4d-492b-a51f-1cf8cb3c8d97', 'Flatiron Building', 'Pass by the iconic triangular Flatiron Building.', 3),
+('571fbb3e-6b4d-492b-a51f-1cf8cb3c8d97', 'Finish at Union Square', 'End at bustling Union Square Park.', 4);
+
+-- Insert steps for Statue of Liberty View Run
+INSERT INTO steps (route_id, label, description, order_num) VALUES
+('5dd84119-6615-457f-a051-1e613a534f8e', 'Start at Washington Square Park', 'Begin at the iconic Washington Square Arch.', 1),
+('5dd84119-6615-457f-a051-1e613a534f8e', 'Hudson River Greenway', 'Run north along the beautiful Hudson River waterfront.', 2),
+('5dd84119-6615-457f-a051-1e613a534f8e', 'Chelsea Piers', 'Pass by the recreational complex on the Hudson.', 3),
+('5dd84119-6615-457f-a051-1e613a534f8e', 'Battery Park', 'Arrive at the southern tip of Manhattan with views of the Statue of Liberty.', 4),
+('5dd84119-6615-457f-a051-1e613a534f8e', 'Finish at Battery Park', 'Enjoy the Statue of Liberty views and complete your run.', 5);
+
+-- Insert steps for Central Park Run
+INSERT INTO steps (route_id, label, description, order_num) VALUES
+('a10f081e-01cb-4761-b305-4ee2d5c0ae8a', 'Start at North End', 'Begin near the Harlem Meer at the north end of the park.', 1),
+('a10f081e-01cb-4761-b305-4ee2d5c0ae8a', 'Harlem Meer', 'Run past the beautiful lake at the park''s north end.', 2),
+('a10f081e-01cb-4761-b305-4ee2d5c0ae8a', 'The Pool', 'Pass by the tranquil Pool area.', 3),
+('a10f081e-01cb-4761-b305-4ee2d5c0ae8a', 'Great Lawn', 'Run along the edge of the massive Great Lawn.', 4),
+('a10f081e-01cb-4761-b305-4ee2d5c0ae8a', 'Bethesda Terrace', 'See the iconic Bethesda Terrace and Fountain.', 5),
+('a10f081e-01cb-4761-b305-4ee2d5c0ae8a', 'The Mall', 'Run down the beautiful tree-lined Mall.', 6),
+('a10f081e-01cb-4761-b305-4ee2d5c0ae8a', 'Sheep Meadow', 'Pass by the famous Sheep Meadow.', 7),
+('a10f081e-01cb-4761-b305-4ee2d5c0ae8a', 'Finish at Columbus Circle', 'End your run at the southwest corner of Central Park.', 8);
+
+-- Insert steps for Hudson River Run
+INSERT INTO steps (route_id, label, description, order_num) VALUES
+('bc801c26-6e3e-4056-a725-b60a1a873180', 'Start at Hudson Yards', 'Begin at the modern Hudson Yards development.', 1),
+('bc801c26-6e3e-4056-a725-b60a1a873180', 'Hudson River Park', 'Run along the waterfront path.', 2),
+('bc801c26-6e3e-4056-a725-b60a1a873180', 'Little Island', 'Finish at the unique Little Island park structure.', 3);
+
+-- Insert steps for Lincoln Center Run
+INSERT INTO steps (route_id, label, description, order_num) VALUES
+('f26e7e4f-e273-45a9-8448-6fc2932e8642', 'Start at Columbus Circle', 'Begin at the busy Columbus Circle intersection.', 1),
+('f26e7e4f-e273-45a9-8448-6fc2932e8642', 'Lincoln Center', 'Run past the world-famous performing arts center.', 2),
+('f26e7e4f-e273-45a9-8448-6fc2932e8642', 'Strawberry Fields', 'Enter Central Park and visit the memorial to John Lennon.', 3),
+('f26e7e4f-e273-45a9-8448-6fc2932e8642', 'Finish at Central Park', 'Complete your run with views of the park.', 4);

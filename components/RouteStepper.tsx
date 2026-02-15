@@ -13,6 +13,23 @@ interface RouteStepperProps {
 export default function RouteStepper({ steps, distance, onComplete }: RouteStepperProps) {
   const [activeStep, setActiveStep] = useState(0);
 
+  if (steps.length === 0) {
+    return (
+      <div className="flex flex-col h-full overflow-hidden">
+        <div className="p-6 border-b border-zinc-200 bg-white">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-2">Route Guide</h2>
+          <p className="text-sm text-zinc-600">Total distance: {distance} miles</p>
+        </div>
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="text-center">
+            <p className="text-zinc-600 mb-4">No steps available for this route yet.</p>
+            <Button onClick={onComplete}>Finish Run</Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);

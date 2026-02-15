@@ -15,14 +15,19 @@ const transformRoute = (r: Record<string, unknown>): Route => ({
     lat: wp.lat as number,
     lng: wp.lng as number,
   })),
-  steps: [],
+  steps: ((r.steps as Record<string, unknown>[]) || [])
+    .sort((a, b) => (a.order_num as number) - (b.order_num as number))
+    .map((s) => ({
+      label: s.label as string,
+      description: (s.description as string | null) || undefined,
+    })),
   createdAt: r.created_at as string,
   updatedAt: r.updated_at as string,
 });
 
 export const routesApi = {
   getAll: async (): Promise<{ data: { routes: Route[] } }> => {
-    const { data, error } = await supabase.from('routes').select('*, waypoints(*)').order('name');
+    const { data, error } = await supabase.from('routes').select('*, waypoints(*), steps(*)').order('name');
 
     if (error) throw error;
     return {
@@ -35,7 +40,7 @@ export const routesApi = {
   getBySlug: async (slug: string): Promise<{ data: { route: Route } }> => {
     const { data, error } = await supabase
       .from('routes')
-      .select('*, waypoints(*)')
+      .select('*, waypoints(*), steps(*)')
       .eq('slug', slug)
       .single();
 

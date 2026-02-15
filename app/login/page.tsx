@@ -39,7 +39,7 @@ export default function Login() {
 
       setAuth(
         { id: result.user?.id || '', email: result.user?.email || '' },
-        result.session?.access_token || '',
+        result.session || null,
       );
       showToast.success('Success! You are now logged in.');
       router.push('/home');
