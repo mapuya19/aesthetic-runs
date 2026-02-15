@@ -61,14 +61,13 @@ export default function RouteStepper({ steps, distance, onComplete }: RouteStepp
           <div key={index} className={`mb-6 relative ${index < activeStep ? 'opacity-50' : ''}`}>
             <div className="flex items-start">
               <div
-                className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold
-                ${
+                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
                   index === activeStep
                     ? 'bg-blue-600 text-white'
                     : index < activeStep
                       ? 'bg-green-500 text-white'
-                      : 'bg-zinc-200 text-zinc-600'
-                }"
+                      : 'bg-zinc-200 text-zinc-900'
+                }`}
               >
                 {index + 1}
               </div>
@@ -84,7 +83,7 @@ export default function RouteStepper({ steps, distance, onComplete }: RouteStepp
               </div>
             </div>
             {index < steps.length - 1 && (
-              <div className="absolute left-4 top-8 w-0.5 h-6 bg-zinc-200" />
+              <div className="absolute left-4 top-1/2 w-0.5 h-14 bg-zinc-200" />
             )}
           </div>
         ))}

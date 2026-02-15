@@ -73,7 +73,7 @@ export default function Home() {
                   )}
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{route.name}</h3>
+                  <h3 className="text-xl font-semibold mb-2 text-zinc-900">{route.name}</h3>
                   <p className="text-zinc-600 mb-4">{route.description}</p>
                   <Link href={`/map/${route.slug}`}>
                     <Button className="w-full">Run route!</Button>
