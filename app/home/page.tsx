@@ -2,8 +2,8 @@
 
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import { Button } from '@/components/ui/button';
 import { routesApi } from '@/lib/routes';
@@ -11,6 +11,7 @@ import type { Route } from '@/types';
 
 export default function Home() {
   const { user, logout } = useAuthStore();
+  const router = useRouter();
   const [routes, setRoutes] = useState<Route[]>([]);
 
   useEffect(() => {
@@ -25,6 +26,11 @@ export default function Home() {
     fetchRoutes();
   }, []);
 
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
+  };
+
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-zinc-50">
@@ -34,7 +40,7 @@ export default function Home() {
               <h1 className="text-2xl font-bold text-teal-600">Aesthetic Runs</h1>
               <div className="flex items-center gap-4">
                 <span className="text-zinc-700">{user?.email}</span>
-                <Button variant="outline" size="sm" onClick={logout}>
+                <Button variant="outline" size="sm" onClick={handleLogout}>
                   Logout
                 </Button>
               </div>

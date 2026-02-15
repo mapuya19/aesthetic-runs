@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import type { Route, Waypoint, Step } from '@/types';
+import type { Route } from '@/types';
 
 export const routesApi = {
   getAll: async (): Promise<{ data: { routes: Route[] } }> => {

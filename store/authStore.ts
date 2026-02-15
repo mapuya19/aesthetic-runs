@@ -4,9 +4,9 @@ import { supabase } from '@/lib/supabase';
 
 interface AuthState {
   user: { id: string; email: string } | null;
-  session: any;
+  session: { user?: { id?: string; email?: string }; access_token?: string } | null;
   isAuthenticated: boolean;
-  setAuth: (user: { id: string; email: string } | null, session: any) => void;
+  setAuth: (user: { id: string; email: string } | null, session: { user?: { id?: string; email?: string }; access_token?: string } | null) => void;
   logout: () => void;
 }
 

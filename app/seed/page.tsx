@@ -129,9 +129,10 @@ export default function SeedPage() {
         console.log(`  - ${route.name} (${route.slug})`);
         console.log(`    ${route.description}`);
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Failed to seed routes:', error);
-      setResult(`❌ Error: ${error.message || 'Unknown error'}`);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      setResult(`❌ Error: ${message}`);
     } finally {
       setLoading(false);
     }

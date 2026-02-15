@@ -23,6 +23,8 @@ pnpm install              # Install all dependencies
 pnpm dev                # Start development server (http://localhost:3000)
 pnpm build              # Build for production
 pnpm seed              # Seed Supabase database with sample routes
+pnpm supabase:push     # Push database migrations to remote
+pnpm supabase:seed     # Reset and seed remote database
 ```
 
 ## Environment Variables
@@ -74,10 +76,10 @@ Visit `/seed` in production to seed sample routes to Supabase (authentication re
 1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
 2. Create a new project or use existing one
 3. Copy your project URL and anon key
-4. Run the SQL from `supabase-schema.sql` in the SQL Editor:
-   - Creates `routes` table
-   - Creates `waypoints` table
-   - Enables Row Level Security
+4. Database schema is managed via Supabase CLI:
+   - `supabase/` directory contains migrations and schemas
+   - Run `pnpm supabase:push` to deploy schema changes
+   - Run `pnpm supabase:seed` to reset and seed with sample routes
 5. Visit `/seed` to populate routes (dev only, requires authentication in production)
 
 ### 2. Netlify Setup

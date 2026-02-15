@@ -105,6 +105,25 @@ export const auth = {
     }
   },
 
+  resendVerificationEmail: async (email: string) => {
+    console.log('Resending verification email to:', email);
+
+    try {
+      const { data, error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+      });
+
+      console.log('Resend result:', { data, error });
+
+      if (error) throw error;
+
+      return data;
+    } catch (error) {
+      throw await handleAuthError(error);
+    }
+  },
+
   logout: async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -130,7 +149,7 @@ export const auth = {
     }
   },
 
-  onAuthStateChange: (callback: (session: any) => void) => {
+  onAuthStateChange: (callback: (session: { user?: { id?: string; email?: string } } | null) => void) => {
     try {
       const {
         data: { subscription },

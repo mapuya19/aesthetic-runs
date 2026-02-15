@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "seed": "ts-node lib/seed-cli.ts"
+    "seed": "tsx lib/seed-cli.ts",
+    "supabase:push": "npx supabase db push",
+    "supabase:seed": "npx supabase db reset --linked --yes"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -32,8 +34,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "supabase": "^2.76.8",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
