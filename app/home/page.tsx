@@ -13,6 +13,7 @@ export default function Home() {
   const { user, logout } = useAuthStore();
   const router = useRouter();
   const [routes, setRoutes] = useState<Route[]>([]);
+  const [hoveredRoute, setHoveredRoute] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRoutes = async () => {
@@ -33,14 +34,14 @@ export default function Home() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-zinc-50">
-        <nav className="bg-white shadow-sm border-b border-zinc-200">
+      <div className="min-h-screen bg-[var(--background)]">
+        <nav className="bg-[var(--background)] border-b border-[var(--border-soft)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16 items-center">
-              <h1 className="text-2xl font-bold text-teal-600">Aesthetic Runs</h1>
+              <h1 className="text-2xl font-bold text-[var(--brand)]">Aesthetic Runs</h1>
               <div className="flex items-center gap-4">
-                <span className="text-zinc-700">{user?.email}</span>
-                <Button variant="outline" size="sm" onClick={handleLogout}>
+                <span className="text-sm text-[var(--text-secondary)] hidden sm:inline-block">{user?.email}</span>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
                   Logout
                 </Button>
               </div>
@@ -50,33 +51,52 @@ export default function Home() {
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-zinc-900 mb-4">Run in style.</h2>
-            <p className="text-xl text-zinc-600">
-              Have your runs be a little more pleasing to the eye.
+            <h2 className="text-5xl font-bold text-[var(--foreground)] mb-4 tracking-tight">
+              Run in style
+            </h2>
+            <p className="text-xl text-[var(--text-secondary)] max-w-2xl mx-auto">
+              Discover routes that turn your run into an adventure. Every path has a story.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {routes.map((route) => (
-              <div key={route.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                <div className="relative w-full h-48">
+              <div
+                key={route.id}
+                className="group bg-[var(--background)] rounded-2xl shadow-card overflow-hidden hover:shadow-elevated transition-all duration-300 hover:-translate-y-1"
+                onMouseEnter={() => setHoveredRoute(route.id)}
+                onMouseLeave={() => setHoveredRoute(null)}
+              >
+                <div className="relative w-full h-56 overflow-hidden">
                   {route.imageUrl ? (
                     <img
                       src={route.imageUrl}
                       alt={route.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-4xl font-bold">
+                    <div className="w-full h-full bg-gradient-to-br from-[var(--navy)] via-[var(--purple)] to-[var(--brand)] flex items-center justify-center text-white text-4xl font-bold">
                       {route.name[0]}
                     </div>
                   )}
+                  <div className="absolute top-4 right-4 bg-[var(--background)]/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-subtle">
+                    <span className="text-sm font-semibold text-[var(--brand)]">
+                      {route.distance} mi
+                    </span>
+                  </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2 text-zinc-900">{route.name}</h3>
-                  <p className="text-zinc-600 mb-4">{route.description}</p>
+                  <h3 className="text-xl font-bold text-[var(--foreground)] mb-2 group-hover:text-[var(--brand)] transition-colors">
+                    {route.name}
+                  </h3>
+                  <p className="text-[var(--text-secondary)] mb-6 line-clamp-2">{route.description}</p>
                   <Link href={`/map/${route.slug}`}>
-                    <Button className="w-full">Run route!</Button>
+                    <Button 
+                      className="w-full"
+                      variant={hoveredRoute === route.id ? 'default' : 'secondary'}
+                    >
+                      Run Route
+                    </Button>
                   </Link>
                 </div>
               </div>
