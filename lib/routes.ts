@@ -1,6 +1,25 @@
 import { supabase } from './supabase';
 import type { Route } from '@/types';
 
+const transformRoute = (r: Record<string, unknown>): Route => ({
+  id: r.id as string,
+  name: r.name as string,
+  slug: r.slug as string,
+  description: r.description as string | null,
+  distance: r.distance as number,
+  originLat: r.origin_lat as number,
+  originLng: r.origin_lng as number,
+  destLat: r.dest_lat as number,
+  destLng: r.dest_lng as number,
+  waypoints: ((r.waypoints as Record<string, unknown>[]) || []).map((wp) => ({
+    lat: wp.lat as number,
+    lng: wp.lng as number,
+  })),
+  steps: [],
+  createdAt: r.created_at as string,
+  updatedAt: r.updated_at as string,
+});
+
 export const routesApi = {
   getAll: async (): Promise<{ data: { routes: Route[] } }> => {
     const { data, error } = await supabase.from('routes').select('*, waypoints(*)').order('name');
@@ -8,10 +27,7 @@ export const routesApi = {
     if (error) throw error;
     return {
       data: {
-        routes: (data || []).map((r) => ({
-          ...r,
-          waypoints: r.waypoints || [],
-        })) as Route[],
+        routes: (data || []).map(transformRoute),
       },
     };
   },
@@ -25,6 +41,6 @@ export const routesApi = {
 
     if (error) throw error;
 
-    return { data: { route: data as Route } };
+    return { data: { route: transformRoute(data) } };
   },
 };
