@@ -112,7 +112,7 @@ export default function MapView({ route, onMarkerClick }: MapViewProps) {
         zoom: 13,
       }}
       style={{ width: '100%', height: '100%' }}
-      mapStyle="mapbox://styles/mapbox/streets-v12"
+      mapStyle="mapbox://styles/mapbox/dark-v11"
     >
       <NavigationControl position="top-right" />
 
@@ -141,7 +141,7 @@ export default function MapView({ route, onMarkerClick }: MapViewProps) {
       {route.waypoints?.map((waypoint, index) => (
         <Marker key={index} longitude={waypoint.lng} latitude={waypoint.lat} anchor="bottom">
           <PulsingMarker
-            color="#8b5cf6"
+            color="#3b82f6"
             size="sm"
             onClick={() => onMarkerClick?.(waypoint.lat, waypoint.lng)}
             title={`Waypoint ${index + 1}`}

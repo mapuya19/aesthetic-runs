@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -70,11 +71,22 @@ export default function Landing() {
       </nav>
 
       <section ref={heroRef} className="relative overflow-hidden min-h-screen flex items-center justify-center pt-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--purple-light)]/20 via-transparent to-[var(--accent-light)]/20 animate-gradient-x" />
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-[var(--brand)]/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-[var(--purple)]/10 rounded-full blur-3xl animate-pulse delay-1000" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-3xl animate-pulse delay-500" />
+          <Image
+            src="https://wallpaperaccess.com/full/123346.jpg"
+            alt="Aesthetic running route"
+            fill
+            priority
+            quality={80}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[var(--background)]/92 via-[var(--background)]/75 to-[var(--background)]/85" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[var(--purple-light)]/3 via-transparent to-[var(--accent-light)]/3 animate-gradient-x" />
+          <div className="absolute inset-0">
+            <div className="absolute top-20 left-10 w-64 h-64 bg-[var(--brand)]/10 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-20 right-10 w-80 h-80 bg-[var(--purple)]/10 rounded-full blur-3xl animate-pulse delay-1000" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-3xl animate-pulse delay-500" />
+          </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center relative stagger-children visible">
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-[var(--foreground)] mb-6 tracking-tight">

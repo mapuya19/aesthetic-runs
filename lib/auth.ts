@@ -96,6 +96,16 @@ export const auth = {
     console.log('Attempting registration for:', email);
 
     try {
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (!signInError && signInData.user) {
+        const existingError = new Error('User already registered');
+        throw existingError;
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
