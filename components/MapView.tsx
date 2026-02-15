@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Map, { Marker, NavigationControl, Source, Layer, MapRef } from 'react-map-gl/mapbox';
 import type { Route } from '@/types';
 

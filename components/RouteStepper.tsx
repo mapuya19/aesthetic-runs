@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Step as StepType } from '@/types';
 import { Button } from './ui/button';
 

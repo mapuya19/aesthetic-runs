@@ -16,7 +16,6 @@
     "@hookform/resolvers": "^5.2.2",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.95.3",
-    "@tanstack/react-query": "^5.90.21",
     "mapbox-gl": "^3.18.1",
     "next": "16.1.6",
     "react": "19.2.3",
