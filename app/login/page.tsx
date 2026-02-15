@@ -11,6 +11,7 @@ import { auth } from '@/lib/auth';
 import { useAuthStore } from '@/store/authStore';
 import { showToast } from '@/lib/toast';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -212,6 +213,10 @@ export default function Login() {
             )}
           </form>
         </div>
+      </div>
+
+      <div className="lg:hidden">
+        <Footer />
       </div>
     </div>
   );

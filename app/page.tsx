@@ -4,20 +4,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer';
 
 export default function Landing() {
   const heroRef = useRef<HTMLElement>(null);
   const featuresRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
-  const footerRef = useRef<HTMLElement>(null);
 
   const [featuresVisible, setFeaturesVisible] = useState(false);
   const [ctaVisible, setCtaVisible] = useState(false);
-  const [footerVisible, setFooterVisible] = useState(false);
 
   useEffect(() => {
-    const options = { threshold: 0.1 };
-
     const featuresObserver = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setFeaturesVisible(true);
@@ -32,25 +29,42 @@ export default function Landing() {
       }
     }, { threshold: 0.2, rootMargin: '0px 0px -100px 0px' });
 
-    const footerObserver = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setFooterVisible(true);
-        footerObserver.unobserve(entry.target);
-      }
-    }, options);
-
     const featuresEl = featuresRef.current;
     const ctaEl = ctaRef.current;
-    const footerEl = footerRef.current;
 
     if (featuresEl) featuresObserver.observe(featuresEl);
     if (ctaEl) ctaObserver.observe(ctaEl);
-    if (footerEl) footerObserver.observe(footerEl);
 
     return () => {
       if (featuresEl) featuresObserver.unobserve(featuresEl);
       if (ctaEl) ctaObserver.unobserve(ctaEl);
-      if (footerEl) footerObserver.unobserve(footerEl);
+    };
+  }, []);
+
+  useEffect(() => {
+    const featuresObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setFeaturesVisible(true);
+        featuresObserver.unobserve(entry.target);
+      }
+    }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
+
+    const ctaObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setCtaVisible(true);
+        ctaObserver.unobserve(entry.target);
+      }
+    }, { threshold: 0.2, rootMargin: '0px 0px -100px 0px' });
+
+    const featuresEl = featuresRef.current;
+    const ctaEl = ctaRef.current;
+
+    if (featuresEl) featuresObserver.observe(featuresEl);
+    if (ctaEl) ctaObserver.observe(ctaEl);
+
+    return () => {
+      if (featuresEl) featuresObserver.unobserve(featuresEl);
+      if (ctaEl) ctaObserver.unobserve(ctaEl);
     };
   }, []);
 
@@ -186,11 +200,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer ref={footerRef} className={`border-t border-[var(--border-soft)] bg-[var(--background)] py-8 sm:py-12 animate-section-fade-up ${footerVisible ? 'visible' : ''}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center text-[var(--text-muted)]">
-          <p className="text-sm sm:text-base">&copy; 2025 Aesthetic Runs. Run in style.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

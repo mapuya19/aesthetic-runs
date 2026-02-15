@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer';
 import { routesApi } from '@/lib/routes';
 import type { Route } from '@/types';
 
@@ -106,6 +107,8 @@ export default function Home() {
             ))}
           </div>
         </main>
+
+        <Footer />
       </div>
     </ProtectedRoute>
   );

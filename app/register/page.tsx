@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { auth } from '@/lib/auth';
 import { showToast } from '@/lib/toast';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer';
 
 const registerSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -200,6 +201,10 @@ export default function Register() {
             </form>
             )}
         </div>
+      </div>
+
+      <div className="lg:hidden">
+        <Footer />
       </div>
     </div>
   );
