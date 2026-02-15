@@ -1,9 +1,6 @@
 # Dependencies
 node_modules/
 
-# pnpm
-pnpm-lock.yaml
-
 # Testing
 /coverage
 
@@ -32,10 +29,6 @@ yarn-error.log*
 .next/
 out/
 .vercel/
-
-# Prisma
-prisma/migrations/*/migration.sql
-/generated/prisma
-
-# Local Netlify folder
-.netlify
+.next-env.d.ts
+*.tsbuildinfo
+.pnp.*

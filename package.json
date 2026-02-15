@@ -1,24 +1,43 @@
 {
-  "name": "aesthetic-runs",
-  "version": "1.0.0",
+  "name": "frontend",
+  "version": "0.1.0",
   "private": true,
-  "description": "Monorepo for Aesthetic Runs",
   "scripts": {
-    "dev": "pnpm --filter \"./apps/**\" --parallel dev",
-    "dev:backend": "pnpm --filter backend dev",
-    "dev:frontend": "pnpm --filter frontend dev",
-    "build": "pnpm --filter \"./apps/**\" build",
-    "lint": "pnpm --filter \"./apps/**\" lint",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "seed": "tsx lib/seed-cli.ts",
+    "supabase:push": "npx supabase db push",
+    "supabase:seed": "npx supabase db reset --linked --yes"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.95.3",
+    "@tanstack/react-query": "^5.90.21",
+    "mapbox-gl": "^3.18.1",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-hook-form": "^7.71.1",
+    "react-map-gl": "^8.1.0",
+    "sonner": "^2.0.7",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
-    "prettier": "^3.8.1",
-    "typescript": "^5.9.3"
-  },
-  "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
-  },
-  "packageManager": "pnpm@9.15.0"
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "supabase": "^2.76.8",
+    "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  }
 }
