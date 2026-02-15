@@ -1,22 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer';
 
 export default function Landing() {
   const heroRef = useRef<HTMLElement>(null);
   const featuresRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLElement>(null);
-  const footerRef = useRef<HTMLElement>(null);
 
   const [featuresVisible, setFeaturesVisible] = useState(false);
   const [ctaVisible, setCtaVisible] = useState(false);
-  const [footerVisible, setFooterVisible] = useState(false);
 
   useEffect(() => {
-    const options = { threshold: 0.1 };
-
     const featuresObserver = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setFeaturesVisible(true);
@@ -31,25 +29,42 @@ export default function Landing() {
       }
     }, { threshold: 0.2, rootMargin: '0px 0px -100px 0px' });
 
-    const footerObserver = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setFooterVisible(true);
-        footerObserver.unobserve(entry.target);
-      }
-    }, options);
-
     const featuresEl = featuresRef.current;
     const ctaEl = ctaRef.current;
-    const footerEl = footerRef.current;
 
     if (featuresEl) featuresObserver.observe(featuresEl);
     if (ctaEl) ctaObserver.observe(ctaEl);
-    if (footerEl) footerObserver.observe(footerEl);
 
     return () => {
       if (featuresEl) featuresObserver.unobserve(featuresEl);
       if (ctaEl) ctaObserver.unobserve(ctaEl);
-      if (footerEl) footerObserver.unobserve(footerEl);
+    };
+  }, []);
+
+  useEffect(() => {
+    const featuresObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setFeaturesVisible(true);
+        featuresObserver.unobserve(entry.target);
+      }
+    }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
+
+    const ctaObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setCtaVisible(true);
+        ctaObserver.unobserve(entry.target);
+      }
+    }, { threshold: 0.2, rootMargin: '0px 0px -100px 0px' });
+
+    const featuresEl = featuresRef.current;
+    const ctaEl = ctaRef.current;
+
+    if (featuresEl) featuresObserver.observe(featuresEl);
+    if (ctaEl) ctaObserver.observe(ctaEl);
+
+    return () => {
+      if (featuresEl) featuresObserver.unobserve(featuresEl);
+      if (ctaEl) ctaObserver.unobserve(ctaEl);
     };
   }, []);
 
@@ -70,11 +85,22 @@ export default function Landing() {
       </nav>
 
       <section ref={heroRef} className="relative overflow-hidden min-h-screen flex items-center justify-center pt-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--purple-light)]/20 via-transparent to-[var(--accent-light)]/20 animate-gradient-x" />
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-64 h-64 bg-[var(--brand)]/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-[var(--purple)]/10 rounded-full blur-3xl animate-pulse delay-1000" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-3xl animate-pulse delay-500" />
+          <Image
+            src="https://wallpaperaccess.com/full/123346.jpg"
+            alt="Aesthetic running route"
+            fill
+            priority
+            quality={80}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[var(--background)]/92 via-[var(--background)]/75 to-[var(--background)]/85" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[var(--purple-light)]/3 via-transparent to-[var(--accent-light)]/3 animate-gradient-x" />
+          <div className="absolute inset-0">
+            <div className="absolute top-20 left-10 w-64 h-64 bg-[var(--brand)]/10 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-20 right-10 w-80 h-80 bg-[var(--purple)]/10 rounded-full blur-3xl animate-pulse delay-1000" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 rounded-full blur-3xl animate-pulse delay-500" />
+          </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center relative stagger-children visible">
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-[var(--foreground)] mb-6 tracking-tight">
@@ -174,11 +200,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <footer ref={footerRef} className={`border-t border-[var(--border-soft)] bg-[var(--background)] py-8 sm:py-12 animate-section-fade-up ${footerVisible ? 'visible' : ''}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center text-[var(--text-muted)]">
-          <p className="text-sm sm:text-base">&copy; 2025 Aesthetic Runs. Run in style.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

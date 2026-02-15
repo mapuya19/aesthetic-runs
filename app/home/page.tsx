@@ -2,10 +2,12 @@
 
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import { Button } from '@/components/ui/button';
+import Footer from '@/components/Footer';
 import { routesApi } from '@/lib/routes';
 import type { Route } from '@/types';
 
@@ -69,10 +71,12 @@ export default function Home() {
               >
                 <div className="relative w-full h-56 overflow-hidden">
                   {route.imageUrl ? (
-                    <img
+                    <Image
                       src={route.imageUrl}
                       alt={route.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      fill
+                      quality={80}
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-[var(--navy)] via-[var(--purple)] to-[var(--brand)] flex items-center justify-center text-white text-4xl font-bold">
@@ -103,6 +107,8 @@ export default function Home() {
             ))}
           </div>
         </main>
+
+        <Footer />
       </div>
     </ProtectedRoute>
   );
