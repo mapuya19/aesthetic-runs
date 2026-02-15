@@ -31,12 +31,22 @@ export default function Register() {
   const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true);
     try {
-      await auth.register(data.email, data.password);
+      const result = await auth.register(data.email, data.password);
+      console.log('Registration successful:', result);
+
       showToast.success('Success! You can now log in.');
       router.push('/login');
     } catch (error: unknown) {
-      const err = error as { message?: string };
-      const message = err.message || 'Registration failed. Please try again.';
+      console.error('Registration error:', error);
+
+      const err = error as { message?: string; code?: string };
+      const message =
+        err.code === 'EMAIL_NOT_CONFIRMED'
+          ? 'Please check your email for a confirmation link to activate your account.'
+          : err.code === 'USER_EXISTS'
+            ? 'An account with this email already exists. Please log in instead.'
+            : err.message || 'Registration failed. Please try again.';
+
       showToast.error(message);
     } finally {
       setIsLoading(false);

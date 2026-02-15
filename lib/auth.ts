@@ -5,13 +5,13 @@ export interface AuthError {
   code?: string;
 }
 
-export async function handleAuthError(error: unknown) {
+async function handleAuthError(error: unknown): Promise<AuthError> {
   console.error('Auth error:', error);
 
   if (error instanceof Error) {
     const message = error.message.toLowerCase();
 
-    if (message.includes('email not confirmed')) {
+    if (message.includes('email not confirmed') || message.includes('email_not_confirmed')) {
       return {
         message:
           'Please check your email and click the confirmation link to activate your account.',
@@ -19,14 +19,35 @@ export async function handleAuthError(error: unknown) {
       };
     }
 
-    if (message.includes('invalid login credentials')) {
+    if (
+      message.includes('invalid login credentials') ||
+      message.includes('invalid_login_credentials')
+    ) {
       return {
-        message: 'Invalid email or password. Please try again.',
+        message: 'Invalid email or password. Please check your credentials.',
         code: 'INVALID_CREDENTIALS',
       };
     }
 
-    if (message.includes('user already registered')) {
+    if (message.includes('invalid email') || message.includes('invalid_email')) {
+      return {
+        message: 'Invalid email address. Please try again.',
+        code: 'INVALID_EMAIL',
+      };
+    }
+
+    if (message.includes('weak password') || message.includes('weak_password')) {
+      return {
+        message: 'Password is too weak. Please use a stronger password.',
+        code: 'WEAK_PASSWORD',
+      };
+    }
+
+    if (
+      message.includes('user already registered') ||
+      message.includes('user_already_registered') ||
+      message.includes('duplicate')
+    ) {
       return {
         message: 'An account with this email already exists. Please log in instead.',
         code: 'USER_EXISTS',
@@ -34,19 +55,28 @@ export async function handleAuthError(error: unknown) {
     }
 
     return {
-      message: 'An authentication error occurred. Please try again.',
+      message: error.message || 'An authentication error occurred. Please try again.',
       code: 'AUTH_ERROR',
     };
   }
+
+  return {
+    message: 'An unexpected error occurred. Please try again.',
+    code: 'UNKNOWN_ERROR',
+  };
 }
 
 export const auth = {
   login: async (email: string, password: string) => {
+    console.log('Attempting login for:', email);
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+      console.log('Login result:', { data, error });
 
       if (error) throw error;
 
@@ -57,11 +87,15 @@ export const auth = {
   },
 
   register: async (email: string, password: string) => {
+    console.log('Attempting registration for:', email);
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
+
+      console.log('Registration result:', { data, error });
 
       if (error) throw error;
 
